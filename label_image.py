@@ -1,16 +1,21 @@
 import tensorflow as tf, sys
+from VideoCapture import Device
 
-image_path = sys.argv[1]
+a = int(input('Prendre une photo ? (1/0)'))
+
+if a == 1:
+  cam = Device()
+  cam.saveSnapshot('input_image.jpg')
 
 # Read in the image_data
-image_data = tf.gfile.FastGFile(image_path, 'rb').read()
+image_data = tf.gfile.FastGFile('input_image.jpg', 'rb').read()
 
 # Loads label file, strips off carriage return
 label_lines = [line.rstrip() for line 
-                   in tf.gfile.GFile("/tf_files/retrained_labels_hp.txt")]
+                   in tf.gfile.GFile("retrained_labels_hp.txt")]
 
 # Unpersists graph from file
-with tf.gfile.FastGFile("/tf_files/retrained_graph_hp.pb", 'rb') as f:
+with tf.gfile.FastGFile("retrained_graph_hp.pb", 'rb') as f:
     graph_def = tf.GraphDef()
     graph_def.ParseFromString(f.read())
     _ = tf.import_graph_def(graph_def, name='')
