@@ -1,14 +1,26 @@
+# _*_coding:utf-8_*_
 import tensorflow as tf, sys
-from VideoCapture import Device
+import cv2
+import numpy as np
 
-a = int(input('Prendre une photo ? (1/0)'))
+cv2.namedWindow('Take a phtoto')
 
-if a == 1:
-  cam = Device()
-  cam.saveSnapshot('input_image.jpg')
+capture = cv2.VideoCapture(0)
+_, frame = capture.read()
+print(frame)
+while frame is not None:
+    cv2.imshow('Take a phtoto', frame)
 
+    key = cv2.waitKey(10)
+    if key == ord('s'):
+        cv2.imwrite('screenshot.jpg', frame)
+    elif key == ord('q'):
+        break
+
+    _, frame = capture.read()
+    
 # Read in the image_data
-image_data = tf.gfile.FastGFile('input_image.jpg', 'rb').read()
+image_data = tf.gfile.FastGFile('screenshot.jpg', 'rb').read()
 
 # Loads label file, strips off carriage return
 label_lines = [line.rstrip() for line 
