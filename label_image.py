@@ -24,10 +24,10 @@ image_data = tf.gfile.FastGFile('screenshot.jpg', 'rb').read()
 
 # Loads label file, strips off carriage return
 label_lines = [line.rstrip() for line 
-                   in tf.gfile.GFile("retrained_labels_hp.txt")]
+                   in tf.gfile.GFile("retrained_labels_smartphones.txt")]
 
 # Unpersists graph from file
-with tf.gfile.FastGFile("retrained_graph_hp.pb", 'rb') as f:
+with tf.gfile.FastGFile("retrained_graph_smartphones.pb", 'rb') as f:
     graph_def = tf.GraphDef()
     graph_def.ParseFromString(f.read())
     _ = tf.import_graph_def(graph_def, name='')
